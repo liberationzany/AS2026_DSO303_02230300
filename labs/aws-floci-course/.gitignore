@@ -1,0 +1,29 @@
+# aws-floci-course/.gitignore
+# Written BEFORE any secret existed. Keep it that way.
+
+# ---- Command output and SECRETS ----
+# NOTE the trailing /* — this matters, see explanation below.
+outputs/*
+!outputs/.gitkeep
+
+# ---- Generated Compose configuration ----
+.env
+.env.local
+
+# ---- Emulator state ----
+floci-data/
+data/
+.floci/
+
+# ---- Credentials of every shape ----
+*.pem
+*.key
+*-access-key.json
+*credentials*
+
+# ---- OS / editor noise ----
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
