@@ -33,7 +33,7 @@ source configs/course.env
 | Lab | Topic | Status |
 |---|---|---|
 | 01 | IAM | [x] complete |
-| 02 | VPC | [ ] not started |
+| 02 | VPC | [x] complete |
 
 ## Conventions
 
