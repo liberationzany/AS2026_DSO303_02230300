@@ -1,0 +1,6 @@
+# Workflow notes to Claude — not a course deliverable.
+INSTRUCTIONS.md
+
+# Reference lab guide PDFs pasted into the repo root for Claude to read.
+# Large binaries; not part of the submitted coursework.
+*.pdf
