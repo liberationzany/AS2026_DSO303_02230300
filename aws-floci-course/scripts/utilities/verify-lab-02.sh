@@ -120,8 +120,8 @@ check "subnets tagged (4 expected)" \
   "test \"\$(aws ec2 describe-subnets --filters Name=tag:Project,Values=USMS --query 'Subnets' --output json | jq 'length')\" = 4"
 check "route tables tagged (2 expected)" \
   "test \"\$(aws ec2 describe-route-tables --filters Name=tag:Project,Values=USMS --query 'RouteTables' --output json | jq 'length')\" = 2"
-check "security groups tagged (2 expected)" \
-  "test \"\$(aws ec2 describe-security-groups --filters Name=tag:Project,Values=USMS --query 'SecurityGroups' --output json | jq 'length')\" = 2"
+check "usms-app-sg and usms-db-sg both tagged Project=USMS" \
+  "test \"\$(aws ec2 describe-security-groups --group-ids $USMS_APP_SG_ID $USMS_DB_SG_ID --query 'SecurityGroups[?Tags[?Key==\`Project\` && Value==\`USMS\`]]' --output json | jq 'length')\" = 2"
 check "NAT gateway tagged" "aws ec2 describe-nat-gateways --filter Name=tag:Project,Values=USMS --query 'NatGateways[0]' --output text | grep -q ."
 check "S3 endpoint tagged" "aws ec2 describe-vpc-endpoints --filters Name=tag:Project,Values=USMS --query 'VpcEndpoints[0]' --output text | grep -q ."
 check "elastic IP tagged" "aws ec2 describe-addresses --filters Name=tag:Project,Values=USMS --query 'Addresses[0]' --output text | grep -q ."

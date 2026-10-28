@@ -35,6 +35,7 @@ source configs/course.env
 | 01 | IAM | [x] complete |
 | 02 | VPC | [x] complete |
 | 03 | EC2 | [x] complete |
+| 04 | ECS | [x] complete |
 
 ## Conventions
 
