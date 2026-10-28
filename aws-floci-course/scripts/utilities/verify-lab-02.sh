@@ -40,12 +40,15 @@ echo "== Subnets =="
 check "public subnet a exists" "aws ec2 describe-subnets --subnet-ids $USMS_PUBLIC_SUBNET_A_ID"
 check "public subnet b exists" "aws ec2 describe-subnets --subnet-ids $USMS_PUBLIC_SUBNET_B_ID"
 check "private subnet a exists" "aws ec2 describe-subnets --subnet-ids $USMS_PRIVATE_SUBNET_A_ID"
+check "private subnet b exists" "aws ec2 describe-subnets --subnet-ids $USMS_PRIVATE_SUBNET_B_ID"
 check "public subnet a auto-assigns public IPv4" \
   "test \"\$(aws ec2 describe-subnets --subnet-ids $USMS_PUBLIC_SUBNET_A_ID --query 'Subnets[0].MapPublicIpOnLaunch' --output text)\" = True"
 check "public subnet b auto-assigns public IPv4" \
   "test \"\$(aws ec2 describe-subnets --subnet-ids $USMS_PUBLIC_SUBNET_B_ID --query 'Subnets[0].MapPublicIpOnLaunch' --output text)\" = True"
 check "private subnet a does NOT auto-assign public IPv4" \
   "test \"\$(aws ec2 describe-subnets --subnet-ids $USMS_PRIVATE_SUBNET_A_ID --query 'Subnets[0].MapPublicIpOnLaunch' --output text)\" = False"
+check "private subnet b does NOT auto-assign public IPv4" \
+  "test \"\$(aws ec2 describe-subnets --subnet-ids $USMS_PRIVATE_SUBNET_B_ID --query 'Subnets[0].MapPublicIpOnLaunch' --output text)\" = False"
 
 echo "== Routing correctness =="
 check "public route table exists" "aws ec2 describe-route-tables --route-table-ids $USMS_PUBLIC_RT_ID"
@@ -60,6 +63,8 @@ check "public subnet b associated with public RT" \
   "aws ec2 describe-route-tables --route-table-ids $USMS_PUBLIC_RT_ID --query 'RouteTables[0].Associations[].SubnetId' --output text | grep -q $USMS_PUBLIC_SUBNET_B_ID"
 check "private subnet a associated with private RT" \
   "aws ec2 describe-route-tables --route-table-ids $USMS_PRIVATE_RT_ID --query 'RouteTables[0].Associations[].SubnetId' --output text | grep -q $USMS_PRIVATE_SUBNET_A_ID"
+check "private subnet b associated with private RT" \
+  "aws ec2 describe-route-tables --route-table-ids $USMS_PRIVATE_RT_ID --query 'RouteTables[0].Associations[].SubnetId' --output text | grep -q $USMS_PRIVATE_SUBNET_B_ID"
 
 echo "== Security groups =="
 check "usms-app-sg exists" "aws ec2 describe-security-groups --group-ids $USMS_APP_SG_ID"
@@ -111,8 +116,8 @@ check "usms-s3-endpoint is a Gateway type" \
 echo "== Tagging compliance (Project=USMS) =="
 check "VPC tagged" "aws ec2 describe-vpcs --filters Name=tag:Project,Values=USMS --query 'Vpcs[0]' --output text | grep -q ."
 check "IGW tagged" "aws ec2 describe-internet-gateways --filters Name=tag:Project,Values=USMS --query 'InternetGateways[0]' --output text | grep -q ."
-check "subnets tagged (3 expected)" \
-  "test \"\$(aws ec2 describe-subnets --filters Name=tag:Project,Values=USMS --query 'Subnets' --output json | jq 'length')\" = 3"
+check "subnets tagged (4 expected)" \
+  "test \"\$(aws ec2 describe-subnets --filters Name=tag:Project,Values=USMS --query 'Subnets' --output json | jq 'length')\" = 4"
 check "route tables tagged (2 expected)" \
   "test \"\$(aws ec2 describe-route-tables --filters Name=tag:Project,Values=USMS --query 'RouteTables' --output json | jq 'length')\" = 2"
 check "security groups tagged (2 expected)" \
