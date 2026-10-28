@@ -499,3 +499,14 @@ source ~/aws-floci-course/configs/lab-02.env
   and continued per the guide's documented fallback.
 - Docker Desktop was not running at the start of this lab (WSL2 backend engine was
   down); started it and waited for the daemon before `floci-up.sh` would succeed.
+
+## Post-lab addendum: Exercise 5 (2026-10-28)
+
+This lab originally built only `usms-private-subnet-a`. Lab 04's prerequisites require
+**both** private subnets to exist, across both Availability Zones, because its ECS
+service places tasks in two AZs. Completed the missing exercise before starting
+Lab 04: created `usms-private-subnet-b` (`10.0.4.0/24`, `us-east-1b`,
+`MapPublicIpOnLaunch=False`) and associated it with the existing `usms-private-rt` —
+the same route table `usms-private-subnet-a` uses, so it inherits the identical
+NAT-only, no-IGW routing with no new route table needed. `configs/lab-02.env` was
+updated with the new subnet's ID and CIDR.
