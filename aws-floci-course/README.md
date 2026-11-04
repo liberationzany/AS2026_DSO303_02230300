@@ -38,6 +38,7 @@ source configs/course.env
 | 04 | ECS | [x] complete |
 | 05 | ALB | [x] complete |
 | 06 | Auto Scaling | [x] complete (Path C - no Application Auto Scaling on this build) |
+| 07 | EKS | [x] complete (Path A - real k3s cluster) |
 
 ## Conventions
 
