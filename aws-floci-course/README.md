@@ -37,6 +37,7 @@ source configs/course.env
 | 03 | EC2 | [x] complete |
 | 04 | ECS | [x] complete |
 | 05 | ALB | [x] complete |
+| 06 | Auto Scaling | [x] complete (Path C - no Application Auto Scaling on this build) |
 
 ## Conventions
 
