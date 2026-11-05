@@ -18,6 +18,7 @@ t "build-time placeholder was replaced" "! grep -q '__BUILT_AT__' dist/index.htm
 t "health endpoint says ok"       "grep -q '^ok$' dist/healthz.html"
 t "build metadata is valid JSON"  "python3 -m json.tool dist/build-metadata.json"
 t "container name matches the task def" "grep -q '\"container\": \"enrolment-api\"' config/service.json"
+t "imagedefinitions.json is a one-element array" "python3 -c \"import json,sys; d=json.load(open('dist/imagedefinitions.json')); sys.exit(0 if isinstance(d,list) and len(d)==1 and d[0]['name']=='enrolment-api' else 1)\""
 
 echo "smoke tests failed: $FAIL"
 [ "$FAIL" -eq 0 ]
