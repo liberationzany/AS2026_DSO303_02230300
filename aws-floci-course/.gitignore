@@ -21,6 +21,10 @@ data/
 *-access-key.json
 *credentials*
 
+# ---- Python build artefacts ----
+__pycache__/
+*.pyc
+
 # ---- OS / editor noise ----
 .DS_Store
 Thumbs.db
