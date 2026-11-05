@@ -42,6 +42,7 @@ source configs/course.env
 | 08 | EKS Scaling and Service Exposure | [x] complete (Path A) |
 | 09 | Security - IAM roles and security groups | [x] complete (Path A) |
 | 10 | Edge functions with AWS Lambda | [x] complete (Path A) |
+| 11 | CI/CD Pipeline - CodePipeline and CodeBuild | [x] complete (Path A) |
 
 ## Conventions
 
