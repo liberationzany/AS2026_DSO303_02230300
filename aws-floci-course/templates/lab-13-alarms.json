@@ -1,0 +1,32 @@
+{
+  "_note": "describe-alarms on this Floci build returns only AlarmName, AlarmArn, AlarmDescription, ActionsEnabled, StateValue, MetricName, Namespace, Statistic, Period, EvaluationPeriods, Threshold and ComparisonOperator - it silently omits TreatMissingData, DatapointsToAlarm, Unit, Dimensions and Tags from the response, even though put-metric-alarm accepted all of them without error. This is the 'accept but drop' pattern confirmed repeatedly elsewhere in this course (ECR control-plane blindness in Lab 12, CloudFront LambdaFunctionAssociations in Lab 10, etc.), now affecting CloudWatch alarms. These two documents record exactly what was sent in the put-metric-alarm calls, since the API cannot be used to verify it afterwards.",
+  "usms-transcript-lag-high": {
+    "AlarmName": "usms-transcript-lag-high",
+    "Namespace": "USMS/Application",
+    "MetricName": "TranscriptLagSeconds",
+    "Dimensions": [{ "Name": "Stage", "Value": "notify" }],
+    "Statistic": "Maximum",
+    "Unit": "Seconds",
+    "Period": 60,
+    "EvaluationPeriods": 3,
+    "DatapointsToAlarm": 2,
+    "Threshold": 2,
+    "ComparisonOperator": "GreaterThanThreshold",
+    "TreatMissingData": "notBreaching",
+    "reasoning": "TranscriptLagSeconds has no data at 3am and that is normal silence, not a problem - a quiet period should not alarm."
+  },
+  "usms-notify-silence": {
+    "AlarmName": "usms-notify-silence",
+    "Namespace": "USMS/Application",
+    "MetricName": "NotifyCount",
+    "Dimensions": [],
+    "Statistic": "Sum",
+    "Period": 300,
+    "EvaluationPeriods": 3,
+    "DatapointsToAlarm": 3,
+    "Threshold": 1,
+    "ComparisonOperator": "LessThanThreshold",
+    "TreatMissingData": "breaching",
+    "reasoning": "For this alarm, the absence IS the problem - the alarm exists to watch for silence, so missing data must breach, the opposite policy from the alarm above."
+  }
+}

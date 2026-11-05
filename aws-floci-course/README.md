@@ -44,6 +44,7 @@ source configs/course.env
 | 10 | Edge functions with AWS Lambda | [x] complete (Path A) |
 | 11 | CI/CD Pipeline - CodePipeline and CodeBuild | [x] complete (Path A) |
 | 12 | ECS Pipeline Deploy - ECR, task definitions, deploy stage | [x] complete (Path A; pipeline's ECS deploy provider unavailable - see lab README) |
+| 13 | Monitoring - CloudWatch logs, metrics, alarms, X-Ray | [x] complete (no metric filters, Insights, dashboards, composite alarms or X-Ray on this build - see lab README) |
 
 ## Conventions
 

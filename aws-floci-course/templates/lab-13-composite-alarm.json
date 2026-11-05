@@ -1,0 +1,13 @@
+{
+  "_note": "aws cloudwatch put-composite-alarm returns UnsupportedOperation on this Floci build ('not supported by CloudWatch JSON') - confirmed directly, never created live. This is the document that would have been applied.",
+  "AlarmName": "usms-transcript-pipeline-down",
+  "AlarmDescription": "The USMS transcript pipeline is failing or silent. One incident, one page.",
+  "AlarmRule": "ALARM(\"usms-transcript-lag-high\") OR ALARM(\"usms-notify-silence\")",
+  "ActionsEnabled": true,
+  "Tags": [
+    { "Key": "Project", "Value": "USMS" },
+    { "Key": "Lab", "Value": "13" }
+  ],
+  "cli_command_that_was_attempted": "aws cloudwatch put-composite-alarm --alarm-name usms-transcript-pipeline-down --alarm-description \"The USMS transcript pipeline is failing or silent. One incident, one page.\" --alarm-rule 'ALARM(\"usms-transcript-lag-high\") OR ALARM(\"usms-notify-silence\")' --actions-enabled --tags Key=Project,Value=USMS Key=Lab,Value=13",
+  "aggregation_purpose": "Both usms-transcript-lag-high (a slow pipeline) and usms-notify-silence (a dead pipeline) are symptoms of the same underlying incident - the transcript delivery pipeline not working. Without this composite, both children would independently page, producing two notifications for one problem. The composite's own --actions-enabled would be the only one wired to a real action; the two children would get --no-actions-enabled once a future alerting lab attaches SNS."
+}

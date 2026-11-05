@@ -1,0 +1,25 @@
+{
+  "_note": "logs put-metric-filter / describe-metric-filters / test-metric-filter are all UnsupportedOperation on this Floci build (confirmed directly, see outputs/lab-13-support-probe.txt). These two filter definitions are the deliverable documents Step 9 would have deployed; they were never created as live objects. Step 10 populates their target metrics by hand instead, as the lab's own fallback for a filter that does not fire.",
+  "filters": [
+    {
+      "filterName": "usms-notify-count",
+      "logGroupName": "/aws/lambda/usms-transcript-notifier",
+      "filterPattern": "USMS_NOTIFY",
+      "metricTransformations": [
+        { "metricName": "NotifyCount", "metricNamespace": "USMS/Application", "metricValue": "1", "defaultValue": 0 }
+      ]
+    },
+    {
+      "filterName": "usms-central-errors",
+      "logGroupName": "/usms/central/application",
+      "filterPattern": "ERROR",
+      "metricTransformations": [
+        { "metricName": "CentralErrorCount", "metricNamespace": "USMS/Application", "metricValue": "1", "defaultValue": 0 }
+      ]
+    }
+  ],
+  "pattern_reasoning": {
+    "usms-notify-count": "USMS_NOTIFY matches only the notifier's own marker line (Step 7's text dialect: whitespace-delimited token match, case-sensitive). It does not match the three USMS_EVENT lines written in Step 7 (none of them contain the literal token USMS_NOTIFY), and it does not match the plain healthcheck line (Step 7's Your-turn negative case).",
+    "usms-central-errors": "ERROR matches only the fourth Step 7 message ('ERROR USMS_EVENT {...}'), by the same whitespace-token rule. Checked against 'USMS_EVENT {\"event\":\"transcript.processed\",\"reason\":\"no ERROR here\"}' (Step 8's Your-turn false-positive probe): the pattern ERROR is a bare term with no exclusion, so it WOULD match that line too, because 'ERROR' appears as a token inside the JSON value (the filter pattern dialect has no JSON-awareness for a USMS_EVENT-prefixed line - it is plain text token matching regardless of where in the line the token sits). This is a genuine false positive this pattern would produce in production: ERROR -quoted as a reason string, not an actual error, would still increment CentralErrorCount. A tighter pattern such as '\"ERROR USMS_EVENT' (anchoring ERROR to the start, which Step 8 notes the dialect does not support via anchoring syntax, only via requiring the literal two-token sequence 'ERROR USMS_EVENT' in that order) would exclude this false positive, since the real error lines are written as 'ERROR USMS_EVENT {...}' (ERROR first) while the false-positive line has USMS_EVENT first and ERROR buried inside the JSON. Recorded as a production concern, not fixed in the deployed pattern (ERROR alone is what Step 9 specifies)."
+  }
+}
