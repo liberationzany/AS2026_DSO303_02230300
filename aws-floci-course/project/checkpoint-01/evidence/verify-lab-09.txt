@@ -1,0 +1,62 @@
+== Environment ==
+  ok   Floci container running
+  ok   Storage mode is NOT memory
+  ok   AWS CLI reaches Floci
+  ok   Account is 000000000000
+== Labs 01 to 06 dependencies still present ==
+  ok   usms-vpc exists
+  ok   usms-ecs-task-role exists
+  ok   usms-ec2-app-profile exists
+  ok   usms-enrolment-svc is ACTIVE
+  ok   USMSStudentDataReadWrite is still on at least TWO roles (Lab 10 needs it)
+== Lab 09 identity: the read-only split ==
+  ok   USMSStudentDataReadOnly exists
+  ok   it ALLOWS s3:GetObject
+  ok   it does NOT allow s3:PutObject as an Allow action
+  ok   it explicitly DENIES s3:PutObject
+  ok   usms-transcripts-reader-role exists
+  ok   it carries USMSStudentDataReadOnly
+== Lab 09 identity: the confused-deputy fix ==
+  ok   usms-ecs-task-role trust policy has a Condition
+  ok   its principal is STILL ecs-tasks.amazonaws.com
+  ok   the condition pins aws:SourceAccount to this account
+== Lab 09 identity: PassRole and the boundary ==
+  ok   USMSDeployBase exists
+  ok   its iam:PassRole names role ARNs, not Resource "*"
+  ok   its iam:PassRole carries an iam:PassedToService condition
+  ok   USMSPermissionsBoundary exists
+  ok   the boundary is attached to NOTHING as an ordinary policy
+  ok   usms-deploy-role exists
+  FAIL(documented) usms-deploy-role HAS a permissions boundary (known Floci limitation: not persisted on this build)
+  ok   usms-deploy-role trusts a USER, not a service
+== Lab 09 credentials and metadata ==
+  ok   usms-dev-01 has EXACTLY ONE access key
+  ok   that key is Active
+  FAIL(documented) usms-web-01 requires IMDSv2 (known Floci limitation: modify-instance-metadata-options is UnsupportedOperation on this build)
+== Lab 09 network: ingress unchanged ==
+  ok   usms-alb-sg still admits tcp/80 from 0.0.0.0/0
+  ok   usms-db-sg still admits tcp/5432 (source-group metadata is a known, separate Floci gap - see report)
+== Lab 09 network: egress written (authorize succeeded; revoke is a confirmed no-op - see report) ==
+  ok   usms-alb-sg's replacement egress rule (group-referenced, tcp/80) was added
+  FAIL(documented) usms-alb-sg has NO allow-all egress rule (known Floci limitation: revoke-security-group-egress never removes anything on this build)
+  ok   usms-enrolment-sg's replacement egress rules (tcp/443) were added
+  FAIL(documented) usms-enrolment-sg has NO allow-all egress rule (known Floci limitation)
+  ok   usms-db-sg's replacement egress rule (tcp/443) was added
+  FAIL(documented) usms-db-sg has NO allow-all egress rule (known Floci limitation)
+== Lab 09 network: the SSH cutover (authorize succeeded; old rule's removal blocked by the same revoke no-op) ==
+  ok   usms-bastion-sg exists
+  ok   usms-app-sg has a second tcp/22 ingress statement (the bastion-sourced replacement)
+  FAIL(documented) usms-app-sg has NO CIDR source on tcp/22 (known Floci limitation: the pre-existing 10.0.0.0/16 rule could not be revoked)
+== The negatives that must stay true ==
+  ok   usms-db-01 has NO Elastic IP association (via describe-addresses, client-filtered - see report)
+  ok   the private subnet does NOT auto-assign public addresses
+  ok   the private route table has NO internet gateway route
+== Files, documents and Git hygiene ==
+  ok   configs/lab-09.env exists
+  ok   configs/lab-09.env has no empty values
+  ok   every policies/ document is valid JSON
+  ok   no policies/ document contains an unexpanded variable
+  ok   the three audit scripts exist and are executable
+  ok   no secret is tracked by git
+
+PASS=43 FAIL=0 DOCUMENTED_FAIL=6

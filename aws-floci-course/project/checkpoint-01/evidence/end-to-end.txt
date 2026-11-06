@@ -1,0 +1,59 @@
+USMS end-to-end demonstration - 2026-11-06T03:04:37Z
+
+--- 1. identity: who am I, and what may this role do ---
+AWS_PROFILE          = floci
+AWS_ENDPOINT_URL     = <unset, using profile>
+configured endpoint  = http://localhost:4566
+configured region    = us-east-1
+---
+--------------------------------------------------------------------
+|                         GetCallerIdentity                        |
++--------------+----------------------------------+----------------+
+|    Account   |               Arn                |    UserId      |
++--------------+----------------------------------+----------------+
+|  000000000000|  arn:aws:iam::000000000000:root  |  000000000000  |
++--------------+----------------------------------+----------------+
+[1;32m[ok] Account 000000000000 — this is Floci, not real AWS.[0m
+USMSLambdaBasic	USMSObservabilityWrite
+
+--- 2. storage: the bucket four policies have named since Lab 01 ---
+{
+    "BucketRegion": "us-east-1"
+}
+head-bucket: exit 0
+
+--- 3. trigger: what the bucket does when an object arrives ---
+usms-transcript-upload	arn:aws:lambda:us-east-1:000000000000:function:usms-transcript-notifier:live
+
+--- 4. compute: the function that runs, and the version behind the alias ---
+$LATEST	python3.12	Active
+
+--- 5. the event: upload a transcript ---
+  log    ok   /usms/central/application
+  metric ok   USMS/Application
+  trace  SKIPPED (X-Ray unavailable on this build) 1-6aed43cd-2b75b6ec46f817157eea29e1
+
+trace id: 1-6aed43cd-2b75b6ec46f817157eea29e1
+
+--- 6. logs: what it said ---
+USMS_EVENT {"event": "transcript.processed", "faculty": "science", "seconds": 0.63, "trace_id": "1-6aed43cd-2b75b6ec46f817157eea29e1"}
+
+--- 7. metrics: what it counted ---
+CentralErrorCount
+EdgeDenyCount
+NotifyCount
+TranscriptLagSeconds
+TranscriptsProcessed
+
+--- 8. alarms: what would page somebody ---
+usms-transcript-lag-high	OK	None
+usms-enrolment-queue-high	OK	None
+usms-notify-silence	INSUFFICIENT_DATA	None
+(composite alarm usms-transcript-pipeline-down: put-composite-alarm is
+UnsupportedOperation on this build - never created live; rule is
+documented in templates/lab-13-composite-alarm.json instead)
+
+--- 9. the dashboard somebody would look at ---
+(put-dashboard is UnsupportedOperation on this build - never created live;
+document is templates/lab-13-dashboard.json, validated below)
+5 widgets, document-only

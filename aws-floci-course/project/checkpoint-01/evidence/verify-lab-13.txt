@@ -1,0 +1,62 @@
+== Environment ==
+  ok   Floci container running
+  ok   AWS CLI reaches Floci
+== Log layer ==
+  ok   central log group /usms/central/application exists
+  ok   central log group retention is 30 days
+  ok   notifier log group has a retention policy
+  ok   ECS log group has a retention policy
+  ok   NO USMS log group is left on never-expire
+  ok   central log group has at least one stream
+  ok   at least 5 USMS_EVENT lines are present
+== Metric filter documentation (put-metric-filter is UnsupportedOperation on this build) ==
+  ok   metric filter definitions documented
+  ok   metric filter document is valid JSON
+  ok   filter-test reasoning recorded
+== Metrics ==
+  ok   namespace USMS/Application has metrics
+  ok   NotifyCount exists (published by hand - filter cannot fire)
+  ok   CentralErrorCount exists (published by hand)
+  ok   TranscriptsProcessed published WITH dimensions
+  ok   TranscriptsProcessed ALSO published with none (the total)
+  ok   TranscriptLagSeconds exists
+== IAM ==
+  ok   USMSObservabilityWrite exists
+  ok   attached to usms-lambda-exec-role
+  ok   attached to usms-ec2-app-role
+  ok   observability policy document is valid JSON
+  ok   PutMetricData is scoped by a cloudwatch:namespace condition
+  ok   log group ARNs end in :* (streams, not just the group)
+== The instrumented notifier ==
+  ok   usms-transcript-notifier exists
+  ok   alias live points at a numbered version
+  ok   alias live has moved past Lab 10 version 1
+  ok   tracing mode on the alias is Active
+  ok   instrumented handler source emits USMS_SUMMARY
+== Alarms ==
+  ok   usms-transcript-lag-high exists
+  ok   usms-transcript-lag-high uses the Maximum statistic, not Average
+  ok   usms-transcript-lag-high's intended missing-data policy is documented as notBreaching
+  ok   usms-notify-silence exists
+  ok   usms-notify-silence's intended missing-data policy is documented as breaching
+  ok   no alarm is left stuck in ALARM from Step 20
+  ok   composite alarm documented (put-composite-alarm is unsupported on this build)
+== Dashboard (put-dashboard is unsupported on this build - document only) ==
+  ok   dashboard document exists
+  ok   dashboard body is valid JSON
+  ok   dashboard has 5 widgets
+  ok   no two widgets overlap
+== X-Ray documents (X-Ray is entirely unrouted on this build - documents only) ==
+  ok   sampling rule document is valid JSON
+  ok   sampling rule declares every required field
+  ok   segment documents share one trace id and are well formed
+== Telemetry emitter ==
+  ok   usms-emit-telemetry.sh is executable and valid bash
+  ok   trace-ids file has at least 4 lines
+== Files and Git hygiene ==
+  ok   configs/lab-13.env exists
+  ok   configs/lab-13.env has no empty values
+  ok   no secret is tracked
+  ok   no deployment archive is tracked
+
+PASS=49 FAIL=0

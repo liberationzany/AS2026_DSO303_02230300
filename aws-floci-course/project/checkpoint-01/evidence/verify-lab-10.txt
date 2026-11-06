@@ -1,0 +1,62 @@
+== Environment ==
+  ok   Floci container running
+  ok   Storage mode is NOT memory
+  ok   AWS CLI reaches Floci
+== Origin bucket ==
+  ok   bucket usms-student-data exists
+  ok   bucket is tagged Project=USMS
+  ok   at least one object under transcripts/
+  ok   USMSStudentDataReadWrite names this bucket, and it now resolves
+== Execution role ==
+  ok   role usms-lambda-exec-role exists
+  ok   role trusts lambda.amazonaws.com
+  ok   role trusts edgelambda.amazonaws.com (Lambda@Edge requirement)
+  ok   USMSLambdaBasic is attached to the role
+== Edge function 1: viewer-request ==
+  ok   usms-edge-viewer-request exists
+  ok   runtime is node or python (the only two the edge accepts)
+  ok   handler is index.handler
+  ok   memory is within the 128 MB viewer cap
+  ok   timeout is within the 5 s viewer cap
+  ok   NO environment variables (forbidden at the edge)
+  ok   at least one published version exists
+== Edge function 2: origin-response ==
+  ok   usms-edge-origin-response exists
+  ok   runtime is node or python
+  ok   memory is within the cap chosen for it
+  ok   NO environment variables
+  ok   at least one published version exists
+== Regional function: transcript notifier ==
+  ok   usms-transcript-notifier exists
+  ok   handler is notifier.handler
+  ok   HAS environment variables (legal here, and the contrast is the point)
+  ok   alias live exists
+  ok   alias live points at a numbered version, not $LATEST
+  ok   resource policy allows s3.amazonaws.com
+  ok   resource policy is scoped to this bucket (no confused deputy)
+== S3 notification ==
+  ok   bucket notification usms-transcript-upload exists
+  ok   notification targets the live alias
+  ok   notification is filtered to transcripts/
+== CloudFront association configuration (the FILE - see header note on why) ==
+  ok   distribution config file exists
+  ok   distribution config is valid JSON
+  ok   exactly two associations declared
+  ok   viewer-request is associated
+  ok   origin-response is associated
+  ok   every associated ARN is version-qualified (the edge refuses $LATEST and aliases)
+  ok   cache key forwards no cookies
+== Source, scripts and Git hygiene ==
+  ok   viewer-request handler source exists
+  ok   origin-response handler source exists
+  ok   notifier handler source exists
+  ok   viewer handler kept its template literal (heredoc was quoted)
+  ok   usms-edge-simulate.sh is executable and valid bash
+  ok   edge trace records the full three-stage chain
+  ok   configs/lab-10.env exists
+  ok   configs/lab-10.env has 25 exports
+  ok   configs/lab-10.env has no empty values
+  ok   no secret is tracked
+  ok   no deployment archive is tracked
+
+PASS=51 FAIL=0

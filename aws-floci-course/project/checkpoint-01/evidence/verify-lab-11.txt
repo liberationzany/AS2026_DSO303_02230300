@@ -1,0 +1,65 @@
+== Environment ==
+ ok Floci container running
+ ok storage mode is NOT memory
+ ok AWS CLI reaches Floci
+ ok account is 000000000000
+== Earlier-lab dependencies ==
+ ok configs/lab-04.env present
+ ok configs/lab-10.env present
+ ok ECS cluster usms-ecs-cluster exists
+ ok ECS service usms-enrolment-svc exists
+ ok container name is enrolment-api
+== Artifact store ==
+ ok bucket usms-pipeline-artifacts exists
+ ok versioning is Enabled
+ ok public access is blocked
+ ok source object present
+ ok source has at least two versions
+== Pipeline identities ==
+ ok role usms-codebuild-role exists
+ ok build role trusts codebuild.amazonaws.com
+ ok policy USMSCodeBuildBase exists
+ ok USMSCodeBuildBase attached to the build role
+ ok role usms-codepipeline-role exists
+ ok pipeline role trusts codepipeline.amazonaws.com
+ ok policy USMSCodePipelineBase exists
+ ok USMSCodePipelineBase attached to the pipeline role
+ ok pipeline policy scopes iam:PassRole
+== CodeBuild ==
+ ok project usms-enrolment-build exists
+ ok project source type is CODEPIPELINE
+ ok project runs as usms-codebuild-role
+ ok project image is the substituted, genuinely-pullable one (standard:7.0 cannot be pulled - see report)
+== CodePipeline ==
+ ok pipeline usms-enrolment-pipeline exists
+ FAIL pipeline has 2 stages
+ ok stage 1 provider is S3
+ ok stage 2 builds usms-enrolment-build
+== Source tree and scripts ==
+ ok buildspec.yml present
+ ok buildspec declares version 0.2
+ ok buildspec has all four phases
+ ok artifacts base-directory is dist
+ ok smoke test is valid bash
+ ok usms-pack-source.sh executable and valid
+ ok usms-buildspec-run.sh executable and valid
+== Files and Git hygiene ==
+ ok configs/lab-11.env present
+ ok no empty or None values in lab-11.env
+ ok codebuild project template is valid JSON
+ ok pipeline template is valid JSON
+ ok templates contain no unexpanded variables
+ ok all four policy documents are valid JSON
+ ok no secret is tracked
+ ok build output dist/ is git-ignored
+
+PASS=45 FAIL=1
+Read the failures top-down, not bottom-up.
+    Environment block failing        -> Floci is not running, or is in memory mode.
+                                         Fix this first; everything below is a consequence.
+    Earlier-lab dependencies failing -> re-run verify-lab-04.sh / verify-lab-10.sh.
+    Artifact store failing           -> Step 5 and Step 6.
+    CodeBuild / CodePipeline block   -> if the support probe said Path B or C, eight
+                                         failures here are EXPECTED. Record the path.
+    Source tree failing              -> Step 7, Step 8, Step 11, Step 14.
+    Hygiene failing                  -> Step 21, and .gitignore.

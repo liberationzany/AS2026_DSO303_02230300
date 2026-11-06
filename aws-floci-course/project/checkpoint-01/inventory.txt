@@ -1,0 +1,101 @@
+USMS project inventory - 2026-11-06T03:49:13Z
+account : 000000000000
+endpoint: http://localhost:4566
+
+== identity (Lab 01) ==
+usms-codepipeline-role
+usms-lambda-exec-role
+usms-eks-cluster-role
+usms-deploy-role
+usms-codebuild-role
+usms-developer-role
+usms-ecs-exec-role
+usms-ec2-app-role
+usms-ecs-task-role
+usms-transcripts-reader-role
+usms-eks-node-role
+USMSAssumeAppRoles
+USMSCodeBuildBase
+USMSObservabilityWrite
+USMSCodePipelineBase
+USMSEKSNodePolicy
+USMSStudentDataReadOnly
+USMSPermissionsBoundary
+USMSDeveloperBase
+USMSECSTaskExecution
+USMSStudentDataReadWrite
+USMSEKSClusterPolicy
+USMSLambdaBasic
+USMSDeployBase
+usms-developers
+usms-auditors
+usms-admins
+usms-audit-01
+usms-admin-01
+usms-dev-01
+usms-ec2-app-profile
+
+== network (Lab 02) ==
+vpc-899122bf	10.0.0.0/16
+4
+6
+
+== compute (Labs 03, 04, 05, 07) ==
+i-586eeca96aa9b0754	running
+i-67a4edf7aa16d42e1	running
+arn:aws:ecs:us-east-1:000000000000:cluster/usms-ecs-cluster
+usms-eks-cluster
+usms-enrolment-alb
+
+== storage and functions (Labs 06, 10) ==
+usms-student-data	usms-pipeline-artifacts
+usms-edge-origin-response	nodejs20.x	PassThrough
+usms-edge-viewer-request	nodejs20.x	PassThrough
+usms-transcript-notifier	python3.12	Active
+
+== pipeline (Labs 11, 12) ==
+usms-enrolment-pipeline
+usms-enrolment-build
+usms-enrolment
+
+== observability (Lab 13) ==
+/aws/codebuild/usms-enrolment-build	None
+/aws/ecr/registry	None
+/aws/lambda/usms-edge-origin-response	14
+/aws/lambda/usms-edge-viewer-request	14
+/aws/lambda/usms-transcript-notifier	14
+/ecs/usms-enrolment	None
+/usms/central/application	30
+/usms/ecs/enrolment	30
+CentralErrorCount
+EdgeDenyCount
+NotifyCount
+TranscriptLagSeconds
+TranscriptsProcessed
+usms-transcript-lag-high	OK	None
+usms-enrolment-queue-high	OK	None
+usms-notify-silence	INSUFFICIENT_DATA	None
+
+== repository ==
+lab documents    : 13
+env files        : 13
+verify scripts   : 13
+cleanup scripts  : 13
+commits          : 24
+tracked secrets  : 0
+0
+
+== verification ==
+scripts/utilities/verify-lab-01.sh       PASS=34 FAIL=0
+scripts/utilities/verify-lab-02.sh       PASS=52 FAIL=0
+scripts/utilities/verify-lab-03.sh       PASS=30 FAIL=0 INFO=5
+scripts/utilities/verify-lab-04.sh       PASS=37 FAIL=0 INFO=1
+scripts/utilities/verify-lab-05.sh       PASS=32 FAIL=0 INFO=1
+scripts/utilities/verify-lab-06.sh       PASS=20 FAIL=0 INFO=2
+scripts/utilities/verify-lab-07.sh       PASS=32 FAIL=0
+scripts/utilities/verify-lab-08.sh       PASS=33 FAIL=1
+scripts/utilities/verify-lab-09.sh       PASS=43 FAIL=0 DOCUMENTED_FAIL=6
+scripts/utilities/verify-lab-10.sh       PASS=51 FAIL=0
+scripts/utilities/verify-lab-11.sh       PASS=45 FAIL=1 (documented: pipeline now has 3 stages, see gaps.md)
+scripts/utilities/verify-lab-12.sh       PASS=46 FAIL=0
+scripts/utilities/verify-lab-13.sh       PASS=49 FAIL=0

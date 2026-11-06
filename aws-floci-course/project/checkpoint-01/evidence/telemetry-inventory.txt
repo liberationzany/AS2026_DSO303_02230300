@@ -1,0 +1,22 @@
+USMS telemetry inventory - 2026-11-05T18:39:22Z
+
+== log groups ==
+/aws/codebuild/usms-enrolment-build	None	0
+/aws/ecr/registry	None	0
+/aws/lambda/usms-edge-origin-response	None	0
+/aws/lambda/usms-edge-viewer-request	None	0
+/aws/lambda/usms-transcript-notifier	None	0
+/ecs/usms-enrolment	None	0
+/usms/ecs/enrolment	7	0
+
+== alarms ==
+usms-enrolment-queue-high	USMS/Enrolment	EnrolmentQueueDepth	OK
+
+== metric namespaces already present ==
+USMS/Enrolment
+USMS/Probe
+
+== dashboards ==
+
+aws: [ERROR]: An error occurred (UnsupportedOperation) when calling the ListDashboards operation: Operation ListDashboards is not supported by CloudWatch JSON.
+(unsupported on this build)

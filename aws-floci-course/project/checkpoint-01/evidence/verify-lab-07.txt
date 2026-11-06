@@ -1,0 +1,40 @@
+== Environment ==
+ ✓ Floci container running
+ ✓ AWS CLI reaches Floci
+ ✓ Account is 000000000000
+== Earlier-lab dependencies still present ==
+ ✓ Lab 01 role usms-developer-role
+ ✓ Lab 01 policy USMSStudentDataReadWrite
+ ✓ Lab 02 usms-vpc
+ ✓ Lab 02 private subnet b exists (two AZs needed)
+== Lab 07 IAM and EC2 ==
+ ✓ role usms-eks-cluster-role
+ ✓ cluster role trusts eks.amazonaws.com
+ ✓ role usms-eks-node-role
+ ✓ node role trusts ec2.amazonaws.com
+ ✓ node role carries Lab 01's USMSStudentDataReadWrite
+ ✓ usms-eks-cluster-sg is in usms-vpc
+== Lab 07 EKS (this build is Path A - see report) ==
+ ✓ cluster usms-eks-cluster is ACTIVE
+ ✓ cluster carries the _lb_ports_ tag
+ ✓ nodegroup usms-eks-nodes is ACTIVE
+== Kubernetes ==
+ ✓ kubectl reaches an API server
+ ✓ namespace usms exists
+ ✓ usms-enrolment has 2 ready replicas
+ ✓ usms-results has 2 ready replicas
+ ✓ usms-gateway has 1 ready replica
+ ✓ service usms-enrolment has at least 2 endpoints
+ ✓ usms-enrolment declares a cpu request (Lab 08 needs it)
+ ✓ usms-enrolment-secret exists
+ ✓ usms-enrolment-sa serviceaccount exists
+ ✓ smoke test: gateway proxies to both backends
+== Files and Git hygiene ==
+ ✓ configs/lab-07.env exists
+ ✓ configs/lab-07.env has no empty values
+ ✓ five or more manifests present
+ ✓ all four Lab 07 policy documents are valid JSON
+ ✓ no outputs/ file is tracked except .gitkeep
+ ✓ .gitignore uses outputs/* not outputs/
+
+PASS=32 FAIL=0

@@ -1,0 +1,43 @@
+== Environment ==
+ ok Floci container running
+ ok Storage mode is NOT memory
+ ok AWS CLI reaches Floci
+ ok kubectl reaches an API server
+== Lab 07 dependencies ==
+ ok namespace usms exists
+ ok usms-enrolment has at least 2 ready replicas
+ ok usms-enrolment declares a cpu request (the HPA's denominator)
+ ok cluster carries the _lb_ports_ tag (expect FAIL on Path B)
+== Lab 08: autoscaling ==
+ ok HorizontalPodAutoscaler usms-enrolment-hpa exists
+ ok HPA is autoscaling/v2 with a behavior block
+ ok HPA targets Deployment usms-enrolment
+ ok HPA minReplicas is 2
+ ok HPA maxReplicas is 8
+ ok HPA cpu target is 50
+ ok HPA scale-in stabilisation window is 300s
+== Lab 08: disruption budgets ==
+ ok PodDisruptionBudget usms-gateway-pdb exists
+ ok usms-gateway-pdb uses minAvailable 1
+ ok usms-enrolment-pdb uses maxUnavailable 1
+== Lab 08: exposure ladder ==
+ ok usms-results-np is a NodePort Service
+ ok usms-results-np is pinned to node port 30080
+ ok usms-results-np selects the same pods as usms-results
+ ok usms-gateway is now type LoadBalancer
+ ok usms-gateway kept a nodePort (each rung keeps the one below)
+ ok Ingress usms-portal-ingress exists
+ ok Ingress declares three paths
+ ok Ingress carries the ALB target-type annotation
+== Lab 08: data plane (expect FAIL - update-nodegroup-config is misrouted on this build, see report) ==
+ FAIL node group maxSize was raised to 6
+== Files and Git hygiene ==
+ ok configs/lab-08.env exists
+ ok configs/lab-08.env records the HPA bounds
+ ok six or more Lab 08 manifests present
+ ok every Lab 08 manifest passes a client-side dry run
+ ok hpa-watch.sh is executable
+ ok no secret is tracked by git
+ ok .gitignore uses outputs/* not outputs/
+
+PASS=33 FAIL=1
