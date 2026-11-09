@@ -67,9 +67,15 @@ Applying the three-category scheme across the whole system, grouped by where the
   rule were built and structurally validated (11/11 checks) but never sent.
 - CodeDeploy / blue-green: `deploy list-applications` does not answer. The appspec and deployment
   group documents (Lab 12 Step 19) are written and YAML/JSON-validated, never executed.
-- A rendered AWS Console, in general: this entire course is CLI/API-only; no screenshot of a
-  console exists anywhere in this repository by design, consistent with the checkpoint's own
-  "no screenshots of green ticks" instruction.
+- A rendered AWS Management Console, specifically: Floci has no console to render, so no
+  console screenshot exists anywhere in this repository, consistent with the checkpoint's own
+  "no screenshots of green ticks" instruction. This is distinct from CLI/SDK terminal
+  screenshots, which do exist for Labs 01-02 (`labs/lab-01-iam/assets/`,
+  `labs/lab-02-vpc/assets/`, 37 images total, embedded in those labs' own READMEs) - those two
+  labs were built under an earlier evidentiary standard, before Lab 03 explicitly switched to
+  disclosed CLI transcripts in place of screenshots ("there is no terminal window in this
+  environment to screenshot" - `labs/lab-03-ec2/README.md`). Labs 03 through 13 all follow that
+  later, transcript-based standard; none of them carry screenshot images.
 
 ## 2. Known failures
 
